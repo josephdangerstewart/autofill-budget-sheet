@@ -1,0 +1,30 @@
+<button id="link-button">Link Account</button>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdn.plaid.com/link/v2/stable/link-initialize.js"></script>
+<script type="text/javascript">
+(async function($) {
+  var handler = Plaid.create({
+    // Create a new link_token to initialize Link
+    token: (await $.post('/plaid/linkToken')).linkToken,
+    onLoad: function() {
+      // Optional, called when Link loads
+    },
+    onSuccess: function(publicToken, metadata) {
+      // Send the public_token to your app server.
+      // The metadata object contains info about the institution the
+      // user selected and the account ID or IDs, if the
+      // Account Select view is enabled.
+      $.post(`/plaid/makeAccessToken?publicToken=${publicToken}`);
+    },
+    onExit: function(err, metadata) {
+      // The user exited the Link flow.
+      if (err != null) {
+        alert('There was a plaid error');
+      }
+    },
+  });
+  $('#link-button').on('click', function(e) {
+    handler.open();
+  });
+})(jQuery);
+</script>
