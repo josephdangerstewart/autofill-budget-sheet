@@ -4,8 +4,6 @@ import path from 'path';
 import { Configuration, PlaidApi, PlaidEnvironments, Products, CountryCode } from 'plaid';
 import fastifyStatic from 'fastify-static';
 
-console.log(process.env);
-
 const plaidConfiguration = new Configuration({
 	basePath: PlaidEnvironments[process.env.PLAID_ENV as string],
 	baseOptions: {
@@ -28,8 +26,6 @@ export async function getAccessTokenFromUser() {
 	});
 
 	serverInstance.get('/', (_, reply) => {
-		console.log('uh');
-		console.log(path.join(__dirname, '/static'));
 		reply.sendFile('index.html');
 	});
 
@@ -88,11 +84,11 @@ async function generateLinkToken() {
 	};
 	try {
 		const createTokenResponse = await plaidClient.linkTokenCreate(request);
+		console.log(createTokenResponse);
 		return {
 			linkToken: createTokenResponse.data.link_token,
 		};
 	} catch (err) {
-		console.error('uh oh');
 		console.error(JSON.stringify(err, null, 2));
 	}
 }
