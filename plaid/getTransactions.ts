@@ -42,5 +42,6 @@ function mapTransaction(source: RawTransaction): PlaidTransaction {
 		amount: source.amount,
 		date: new Date(source.date),
 		merchantName: source.merchant_name,
+		rawName: source.name,
 	};
 }

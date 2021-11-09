@@ -4,4 +4,5 @@ export interface PlaidTransaction {
 	id: string;
 	date: Date;
 	merchantName: string;
+	rawName: string;
 }
