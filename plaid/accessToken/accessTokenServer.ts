@@ -32,7 +32,7 @@ export async function getAccessTokenFromUser() {
 	const accessTokenPromise = waitForAccessToken(serverInstance);
 
 	await serverInstance.listen(process.env.PORT ?? 8080);
-	open(`http://localhost:${process.env.PORT ?? 8080}`);
+	await open(`http://localhost:${process.env.PORT ?? 8080}`);
 
 	return await accessTokenPromise;
 }
@@ -84,7 +84,6 @@ async function generateLinkToken() {
 	};
 	try {
 		const createTokenResponse = await plaidClient.linkTokenCreate(request);
-		console.log(createTokenResponse);
 		return {
 			linkToken: createTokenResponse.data.link_token,
 		};
