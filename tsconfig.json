@@ -1,0 +1,17 @@
+{
+	"compilerOptions": {
+		"target": "es2019",
+		"lib": ["es2020", "es2019"],
+        "module": "CommonJS",
+        "noImplicitAny": true,
+        "removeComments": true,
+        "experimentalDecorators": true,
+        "rootDir": ".",
+        "listFiles": true,
+        "newLine": "LF",
+		"noEmitOnError": true,
+		"skipLibCheck": true,
+		"skipDefaultLibCheck": true,
+		"esModuleInterop": true
+	}
+}

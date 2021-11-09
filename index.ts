@@ -1,12 +1,12 @@
-import dotenv from 'dotenv';
+import * as dotenv from 'dotenv';
 dotenv.config();
 
-import { getAccessToken } from './plaid';
+import { getAccessToken, getTransactions } from './plaid';
 
 
 async function main() {
 	const plaidAccessToken = await getAccessToken();
-	console.log(plaidAccessToken);
+	await getTransactions(plaidAccessToken, new Date('2021-01-01'));
 	process.exit(0);
 }
 

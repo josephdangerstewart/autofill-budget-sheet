@@ -1,20 +1,9 @@
 import fastify, { FastifyInstance } from 'fastify';
 import open from 'open';
 import path from 'path';
-import { Configuration, PlaidApi, PlaidEnvironments, Products, CountryCode } from 'plaid';
+import { Products, CountryCode } from 'plaid';
 import fastifyStatic from 'fastify-static';
-
-const plaidConfiguration = new Configuration({
-	basePath: PlaidEnvironments[process.env.PLAID_ENV as string],
-	baseOptions: {
-		headers: {
-			'PLAID-CLIENT-ID': process.env.PLAID_CLIENT_ID,
-			'PLAID-SECRET': process.env.PLAID_SECRET,
-		},
-	},
-});
-
-const plaidClient = new PlaidApi(plaidConfiguration);
+import { plaidClient } from '../plaidClient';
 
 export const ACCESS_TOKEN_SERVER_PORT = process.env.PORT ?? 8080;
 
