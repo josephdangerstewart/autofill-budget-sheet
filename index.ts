@@ -6,7 +6,10 @@ import { getMostRecentTransactionDate } from './google';
 
 
 async function main() {
-	await getMostRecentTransactionDate();
+	const accessToken = await getAccessToken();
+	const transactions = await getTransactions(accessToken, new Date('2021-10-01'));
+	console.log(transactions);
+	process.exit(0);
 }
 
 main();
