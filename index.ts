@@ -2,12 +2,11 @@ import * as dotenv from 'dotenv';
 dotenv.config();
 
 import { getAccessToken, getTransactions } from './plaid';
+import { getMostRecentTransactionDate } from './google';
 
 
 async function main() {
-	const plaidAccessToken = await getAccessToken();
-	console.log(await getTransactions(plaidAccessToken, new Date('2021-01-01')));
-	process.exit(0);
+	await getMostRecentTransactionDate();
 }
 
 main();

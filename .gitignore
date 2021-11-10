@@ -3,6 +3,7 @@
 # Edit at https://www.toptal.com/developers/gitignore?templates=node,windows
 
 plaidAccessToken.json
+serviceAccountCredentials.json
 
 ### Node ###
 # Logs
