@@ -1,6 +1,7 @@
 import * as dotenv from 'dotenv';
 dotenv.config();
 
+import { subMonths } from 'date-fns';
 import { getAccessToken, getTransactions } from './plaid';
 import { getMostRecentTransactionDate, getRules, recordClassificationResults } from './google';
 import { tryClassifyTransactions } from './classifier';
@@ -17,7 +18,12 @@ async function main() {
 		getRules(),
 	]);
 
-	const transactions = await getTransactions(plaidAccessToken, lastTransactionDate);
+	console.log(lastTransactionDate);
+
+	const transactions = await getTransactions(
+		plaidAccessToken,
+		lastTransactionDate ?? subMonths(new Date, 3)
+	);
 
 	const classifications = tryClassifyTransactions(transactions, rules);
 
