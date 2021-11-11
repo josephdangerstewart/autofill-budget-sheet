@@ -5,7 +5,7 @@ export const sheetInfo = {
 			name: 'Most Recent Transaction',
 			dataStartsAtRow: 4,
 			columns: {
-				mostRecentTransaction: 'B',
+				mostRecentTransaction: 'E',
 			}
 		},
 		transactions: {
@@ -30,6 +30,7 @@ export const sheetInfo = {
 				name: 'B',
 				date: 'C',
 				amount: 'D',
+				wasAutoAdded: 'E',
 			}
 		},
 		rules: {

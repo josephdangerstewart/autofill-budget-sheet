@@ -37,6 +37,7 @@ async function recordIncome(results: PlaidTransaction[]): Promise<void> {
 		name: plaidTransaction.rawName,
 		date: format(plaidTransaction.date, 'yyyy-MM-dd'),
 		amount: (plaidTransaction.amount * -1).toString(),
+		wasAutoAdded: 'YES',
 	})));
 }
 
