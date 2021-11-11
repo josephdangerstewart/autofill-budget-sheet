@@ -12,5 +12,5 @@ export async function getMostRecentTransactionDate(): Promise<Date | null> {
 		return null;
 	}
 
-	return parsedDate
+	return parsedDate;
 }
