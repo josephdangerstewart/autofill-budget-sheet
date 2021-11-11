@@ -2,13 +2,13 @@ import * as dotenv from 'dotenv';
 dotenv.config();
 
 import { getAccessToken, getTransactions } from './plaid';
-import { getMostRecentTransactionDate } from './google';
+import { getMostRecentTransactionDate, getRules } from './google';
 
 
 async function main() {
-	const mostRecentDate = await getMostRecentTransactionDate();
+	const rules = await getRules();
 
-	console.log(mostRecentDate);
+	console.log(rules);
 
 	process.exit(0);
 }

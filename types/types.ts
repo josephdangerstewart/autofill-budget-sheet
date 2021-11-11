@@ -16,3 +16,24 @@ export interface DataSheet<T extends Record<string, string>> {
 export type DataSheetRow<T extends string | number | symbol> = {
 	[key in T]: string | undefined;
 }
+
+export type StringMatchingRule = {
+	value?: string;
+	isApproximate?: boolean;
+	any?: StringMatchingRule[];
+	all?: StringMatchingRule[];
+}
+
+export type NumberMatchingRule = {
+	value: number;
+	operator: 'eq' | 'gt' | 'gte' | 'lt' | 'lte';
+}
+
+export interface ClassificationRule {
+	behavior: string;
+
+	categories?: StringMatchingRule;
+	merchantName?: StringMatchingRule;
+	amount?: NumberMatchingRule;
+	rawName?: StringMatchingRule;
+}
