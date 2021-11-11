@@ -39,7 +39,7 @@ function mapToClassificationRule(row: RuleSheetRow): ClassificationRule {
 }
 
 function parseNumberSyntax(value: string): NumberMatchingRule | undefined {
-	if (!value) {
+	if (!value || value.trim() === '') {
 		return;
 	}
 
@@ -81,6 +81,10 @@ const operatorToOperationName = {
 
 function parseStringSyntax(value: string): StringMatchingRule | undefined {
 	if (value === undefined || value === null) {
+		return;
+	}
+
+	if (value.trim() === '') {
 		return;
 	}
 

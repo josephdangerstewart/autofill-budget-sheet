@@ -7,6 +7,11 @@ export interface PlaidTransaction {
 	rawName: string;
 }
 
+export interface Transaction extends Omit<PlaidTransaction, 'categories'> {
+	plaidCategories: string[];
+	category: string;
+}
+
 export interface DataSheet<T extends Record<string, string>> {
 	dataStartsAtRow: number;
 	name: string;
