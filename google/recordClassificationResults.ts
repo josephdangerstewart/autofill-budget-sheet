@@ -6,20 +6,38 @@ import { sheetInfo } from './sheetInfo';
 
 export async function recordClassificationResults(results: ClassificationResult[]): Promise<void> {
 	const forManualReview = results
-		.filter((x) => x.status === 'error' || x.behavior === '$ASK_EVERY_TIME')
+		.filter((x) => (
+			(x.status === 'error' || x.behavior === '$ASK_EVERY_TIME') &&
+			x.plaidTransaction.amount >= 0
+		))
 		.map((x) => x.plaidTransaction);
 	
 	const forSuccess = results
 		.filter((x): x is SuccessClassificationResult => (
 			x.status === 'success' &&
+			x.plaidTransaction.amount >= 0 &&
 			x.behavior !== '$ASK_EVERY_TIME' &&
 			x.behavior !== '$IGNORE'
 		));
 
+	const income = results
+		.filter((x) => x.plaidTransaction.amount < 0)
+		.map(x => x.plaidTransaction);
+
 	await Promise.all([
 		markForManualReview(sortBy(forManualReview, [(x) => x.date.toISOString()])),
 		recordSuccess(sortBy(forSuccess, [o => o.plaidTransaction.date.toISOString()])),
+		recordIncome(income),
 	]);
+}
+
+async function recordIncome(results: PlaidTransaction[]): Promise<void> {
+	await addSheetData(sheetInfo.sheets.income, results.map((plaidTransaction) => ({
+		id: plaidTransaction.id,
+		name: plaidTransaction.rawName,
+		date: format(plaidTransaction.date, 'yyyy-MM-dd'),
+		amount: (plaidTransaction.amount * -1).toString(),
+	})));
 }
 
 async function markForManualReview(results: PlaidTransaction[]): Promise<void> {

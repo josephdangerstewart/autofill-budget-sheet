@@ -29,6 +29,16 @@ export const sheetInfo = {
 				plaidCategories: 'H',
 			}
 		},
+		income: {
+			name: 'Income',
+			dataStartsAtRow: 4,
+			columns: {
+				id: 'A',
+				name: 'B',
+				date: 'C',
+				amount: 'D',
+			}
+		},
 		rules: {
 			name: 'Rules',
 			dataStartsAtRow: 4,
