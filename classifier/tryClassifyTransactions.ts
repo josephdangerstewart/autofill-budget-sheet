@@ -1,17 +1,4 @@
-import { ClassificationRule, PlaidTransaction, Transaction, StringMatchingRule, NumberMatchingRule } from '../types';
-
-type SuccessClassificationResult = {
-	status: 'success';
-	behavior: string;
-	plaidTransaction: PlaidTransaction;
-}
-
-type ErrorClassificationResult = {
-	status: 'error';
-	plaidTransaction: PlaidTransaction;
-}
-
-type ClassificationResult = SuccessClassificationResult | ErrorClassificationResult;
+import { ClassificationRule, PlaidTransaction, StringMatchingRule, NumberMatchingRule, ClassificationResult } from '../types';
 
 export function tryClassifyTransactions(transactions: PlaidTransaction[], rules: ClassificationRule[]): ClassificationResult[] {
 	return transactions.map(x => tryClassifyTransaction(x, rules));

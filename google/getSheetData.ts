@@ -1,7 +1,7 @@
 import { google } from 'googleapis';
-import sortBy = require('lodash.sortby');
 import { sheetInfo } from './sheetInfo';
 import { DataSheet, DataSheetRow } from '../types';
+import { getRange, columnNameToIndex } from './sheetsUtil';
 
 export async function getSheetData<T extends Record<string, string>>(
 	sheet: DataSheet<T>,
@@ -29,35 +29,4 @@ export async function getSheetData<T extends Record<string, string>>(
 	});
 
 	return values as DataSheetRow<keyof T>[];
-}
-
-function getRange<T extends Record<string, string>>(
-	sheet: DataSheet<T>,
-	startRow: number,
-	endRow?: number
-): string {
-	const columnsWithIndices = Object
-		.values(sheet.columns)
-		.map(columnName => ({
-			index: columnNameToIndex(columnName),
-			columnName,
-		}));
-
-	const endColumn = sortBy(columnsWithIndices, ['index']).reverse()[0].columnName;
-
-	return `'${sheet.name}'!A${startRow + sheet.dataStartsAtRow - 1}:${endColumn}${endRow || endRow === 0 ? endRow + sheet.dataStartsAtRow - 1 : ''}`;
-}
-
-function columnNameToIndex(name: string): number {
-	if (!/^[A-Z]+$/.test(name)) {
-		throw new Error(`Column names must be letters only, got "${name}"`);
-	}
-
-	return name
-		.toLowerCase()
-		.split('')
-		.map(x => x.charCodeAt(0) - 96)
-		.reverse()
-		.map((x, i) => x * 26**i)
-		.reduce((total, cur) => total + cur) - 1;
 }

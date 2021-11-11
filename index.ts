@@ -2,7 +2,7 @@ import * as dotenv from 'dotenv';
 dotenv.config();
 
 import { getAccessToken, getTransactions } from './plaid';
-import { getMostRecentTransactionDate, getRules } from './google';
+import { getMostRecentTransactionDate, getRules, recordClassificationResults } from './google';
 import { tryClassifyTransactions } from './classifier';
 
 
@@ -17,16 +17,11 @@ async function main() {
 		getRules(),
 	]);
 
-	// console.log(JSON.stringify(rules[rules.length - 1], null, 2));
-
 	const transactions = await getTransactions(plaidAccessToken, lastTransactionDate);
 
 	const classifications = tryClassifyTransactions(transactions, rules);
 
-	console.log(classifications.slice(0, 10).map((c) => ({
-		...c,
-		plaidCategories: c.plaidTransaction.categories,
-	})));
+	await recordClassificationResults(classifications);
 
 	process.exit(0);
 }

@@ -42,3 +42,16 @@ export interface ClassificationRule {
 	amount?: NumberMatchingRule;
 	rawName?: StringMatchingRule;
 }
+
+export type SuccessClassificationResult = {
+	status: 'success';
+	behavior: string;
+	plaidTransaction: PlaidTransaction;
+}
+
+export type ErrorClassificationResult = {
+	status: 'error';
+	plaidTransaction: PlaidTransaction;
+}
+
+export type ClassificationResult = SuccessClassificationResult | ErrorClassificationResult;
