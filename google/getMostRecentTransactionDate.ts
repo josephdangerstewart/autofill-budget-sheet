@@ -3,8 +3,8 @@ import { sheetInfo } from './sheetInfo';
 import { getSheetData } from './getSheetData';
 
 export async function getMostRecentTransactionDate(): Promise<Date | null> {
-	const response = await getSheetData(sheetInfo.sheets.readOnlyAutoTransactions, 1, 1);
-	const mostRecentDate = response[0]?.date;
+	const response = await getSheetData(sheetInfo.sheets.mostRecentTransaction, 1, 1);
+	const mostRecentDate = response[0]?.mostRecentTransaction;
 
 	const parsedDate = parse(mostRecentDate, 'yyyy-MM-dd', new Date());
 

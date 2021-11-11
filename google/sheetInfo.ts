@@ -1,18 +1,11 @@
 export const sheetInfo = {
 	spreadsheetId: '1ws9bzJ7jGTBsqKY-leK3JZHDSJRCGKKvBCfH7WRYgq8',
 	sheets: {
-		readOnlyAutoTransactions: {
-			name: 'Auto Classified Transactions',
+		mostRecentTransaction: {
+			name: 'Most Recent Transaction',
 			dataStartsAtRow: 4,
 			columns: {
-				id: 'A',
-				name: 'B',
-				merchant: 'C',
-				date: 'D',
-				amount: 'E',
-				category: 'F',
-				wasAutoAdded: 'G',
-				plaidCategories: 'H',
+				mostRecentTransaction: 'B',
 			}
 		},
 		transactions: {
