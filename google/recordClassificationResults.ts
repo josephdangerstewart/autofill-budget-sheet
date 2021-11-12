@@ -27,7 +27,7 @@ export async function recordClassificationResults(results: ClassificationResult[
 	await Promise.all([
 		markForManualReview(sortBy(forManualReview, [(x) => x.date.toISOString()])),
 		recordSuccess(sortBy(forSuccess, [o => o.plaidTransaction.date.toISOString()])),
-		recordIncome(income),
+		recordIncome(sortBy(income, [o => o.date.toISOString()])),
 	]);
 }
 
