@@ -1,7 +1,7 @@
 import sortBy = require('lodash.sortby');
 import { ClassificationResult, SuccessClassificationResult, PlaidTransaction } from '../types';
 import { format } from 'date-fns';
-import { addSheetData } from './addSheetData';
+import { addSheetData } from './sheetManipulation';
 import { sheetInfo } from './sheetInfo';
 
 export async function recordClassificationResults(results: ClassificationResult[]): Promise<void> {

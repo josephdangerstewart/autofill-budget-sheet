@@ -1,6 +1,6 @@
 import { google } from 'googleapis';
-import { sheetInfo } from './sheetInfo';
-import { DataSheet, DataSheetRow } from '../types';
+import { sheetInfo } from '../sheetInfo';
+import { DataSheet, DataSheetRow } from '../../types';
 import { getRange, columnNameToIndex } from './sheetsUtil';
 
 export async function getSheetData<T extends Record<string, string>>(

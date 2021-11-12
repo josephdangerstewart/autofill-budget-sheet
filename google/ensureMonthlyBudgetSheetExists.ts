@@ -2,9 +2,7 @@ import { google } from 'googleapis';
 import { format, startOfMonth, endOfMonth } from 'date-fns';
 import { sheetInfo } from './sheetInfo';
 import { DataSheet } from '../types';
-import { getSheetData } from './getSheetData';
-import { addSheetData } from './addSheetData';
-import { updateSheetData } from './updateSheetData';
+import { updateSheetData, addSheetData, getSheetData } from './sheetManipulation';
 
 export async function ensureMonthlyBudgetSheetExists(dateForMonth: Date): Promise<void> {
 	const sheets = google.sheets({ version: 'v4' });

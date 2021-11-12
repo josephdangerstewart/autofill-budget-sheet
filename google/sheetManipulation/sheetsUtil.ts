@@ -1,4 +1,4 @@
-import { DataSheet, DataSheetRow } from '../types';
+import { DataSheet, DataSheetRow } from '../../types';
 import sortBy = require('lodash.sortby');
 
 export function buildRow<T extends Record<string, string>>(

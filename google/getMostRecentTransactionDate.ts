@@ -1,6 +1,6 @@
 import { parse } from 'date-fns';
 import { sheetInfo } from './sheetInfo';
-import { getSheetData } from './getSheetData';
+import { getSheetData } from './sheetManipulation';
 
 export async function getMostRecentTransactionDate(): Promise<Date | null> {
 	const response = await getSheetData(sheetInfo.sheets.mostRecentTransaction, 1, 1);

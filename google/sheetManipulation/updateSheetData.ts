@@ -1,7 +1,7 @@
-import { DataSheet, DataSheetRow } from '../types';
+import { DataSheet, DataSheetRow } from '../../types';
 import { columnNameToIndex, buildRow, getRange } from './sheetsUtil';
 import { google } from 'googleapis';
-import { sheetInfo } from './sheetInfo';
+import { sheetInfo } from '../sheetInfo';
 
 export async function updateSheetData<T extends Record<string, string>>(
 	sheet: DataSheet<T>,

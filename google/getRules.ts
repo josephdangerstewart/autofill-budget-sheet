@@ -1,6 +1,6 @@
 import { ClassificationRule, DataSheetRow, StringMatchingRule, NumberMatchingRule } from '../types';
 import { sheetInfo } from './sheetInfo';
-import { getSheetData } from './getSheetData';
+import { getSheetData } from './sheetManipulation';
 
 type RuleSheetRow = DataSheetRow<keyof typeof sheetInfo['sheets']['rules']['columns']>;
 
