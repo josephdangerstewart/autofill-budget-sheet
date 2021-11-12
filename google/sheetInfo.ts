@@ -109,8 +109,9 @@ export const sheetInfo = {
 				merchant: 'C',
 				date: 'D',
 				amount: 'E',
-				plaidCategories: 'F'
-			}
-		}
+				plaidCategories: 'F',
+				manuallyEnteredCategory: 'G',
+			},
+		},
 	},
 } as const;

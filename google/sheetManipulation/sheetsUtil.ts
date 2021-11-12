@@ -53,3 +53,13 @@ export function columnNameToIndex(name: string): number {
 		.map((x, i) => x * 26**i)
 		.reduce((total, cur) => total + cur) - 1;
 }
+
+export function parseDollars(dollars: string): number {
+	const match = /[^0-9]*([0-9]+\.[0-9]+?)$/.exec(dollars);
+
+	if (!match) {
+		return NaN;
+	}
+
+	return parseFloat(match[1]);
+}

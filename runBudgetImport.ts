@@ -1,9 +1,15 @@
+import uniqBy = require('lodash.uniqby');
 import { getAccessToken, getTransactions } from './plaid';
-import { getMostRecentTransactionDate, getRules, recordClassificationResults } from './google';
-import { subMonths } from 'date-fns';
+import {
+	getMostRecentTransactionDate,
+	getRules,
+	recordClassificationResults,
+	ensureMonthlyBudgetSheetExists,
+} from './google';
+import { subMonths, format } from 'date-fns';
 import { tryClassifyTransactions } from './classifier';
 
-export async function addTransactionsToSheet() {
+export async function runBudgetImport() {
 	const [
 		plaidAccessToken,
 		lastTransactionDate,
@@ -24,5 +30,13 @@ export async function addTransactionsToSheet() {
 	const classifications = tryClassifyTransactions(transactions, rules);
 
 	await recordClassificationResults(classifications);
-	return classifications;
+
+	const uniqueMonths = uniqBy(
+		classifications.map((x) => x.plaidTransaction.date),
+		d => format(d, 'LLL yyyy'),
+	);
+
+	const promises = uniqueMonths.map(x => ensureMonthlyBudgetSheetExists(x));
+
+	await Promise.all(promises);
 }

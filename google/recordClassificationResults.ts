@@ -49,6 +49,7 @@ async function markForManualReview(results: PlaidTransaction[]): Promise<void> {
 		date: format(plaidTransaction.date, 'yyyy-MM-dd'),
 		amount: plaidTransaction.amount.toString(),
 		plaidCategories: plaidTransaction.categories.join(', '),
+		manuallyEnteredCategory: '',
 	})));
 }
 
