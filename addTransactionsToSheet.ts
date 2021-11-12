@@ -24,4 +24,5 @@ export async function addTransactionsToSheet() {
 	const classifications = tryClassifyTransactions(transactions, rules);
 
 	await recordClassificationResults(classifications);
+	return classifications;
 }
