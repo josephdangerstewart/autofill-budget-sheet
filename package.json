@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "ts-node --transpile-only --files index"
+	"start": "ts-node --transpile-only --files index",
+	"import": "yarn start import",
+	"reclassify": "yarn start reclassify"
   },
   "author": "",
   "license": "ISC",
