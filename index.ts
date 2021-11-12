@@ -1,12 +1,19 @@
 import * as dotenv from 'dotenv';
 dotenv.config();
 
+import { program } from 'commander';
+
 import { runBudgetImport } from './runBudgetImport';
 import { reclassifyTransactions } from './reclassifyTransactions';
 
-async function main() {
-	// await runBudgetImport();
-	await reclassifyTransactions();
-}
+program
+	.command('import')
+	.description('imports transactions into the budgeting sheet and creates monthly sheets')
+	.action(() => runBudgetImport());
 
-main();
+program
+	.command('reclassify')
+	.description('reclassifies manually reviewed transactions')
+	.action(() => reclassifyTransactions());
+
+program.parse(process.argv);
