@@ -1,11 +1,12 @@
-import { google } from 'googleapis';
 import { DataSheet, DataSheetRow } from '../types';
-import { columnNameToIndex, getRange, buildRow } from './sheetsUtil';
+import { columnNameToIndex, buildRow, getRange } from './sheetsUtil';
+import { google } from 'googleapis';
 import { sheetInfo } from './sheetInfo';
 
-export async function addSheetData<T extends Record<string, string>>(
+export async function updateSheetData<T extends Record<string, string>>(
 	sheet: DataSheet<T>,
-	rowData: DataSheetRow<keyof T>[]
+	row: number,
+	data: DataSheetRow<keyof T>
 ): Promise<void> {
 	const sheetsClient = google.sheets({ version: 'v4' });
 
@@ -14,13 +15,13 @@ export async function addSheetData<T extends Record<string, string>>(
 		index: columnNameToIndex(columnName),
 	}));
 
-	const rawRowData = rowData.map((x) => buildRow(sheet, x, columns));
+	const rawRowData = buildRow(sheet, data, columns);
 
-	await sheetsClient.spreadsheets.values.append({
+	await sheetsClient.spreadsheets.values.update({
 		spreadsheetId: sheetInfo.spreadsheetId,
-		range: getRange(sheet, 1),
+		range: getRange(sheet, row, row),
 		requestBody: {
-			values: rawRowData,
+			values: [rawRowData],
 		},
 		valueInputOption: 'USER_ENTERED',
 	});

@@ -1,5 +1,26 @@
-import { DataSheet } from '../types';
+import { DataSheet, DataSheetRow } from '../types';
 import sortBy = require('lodash.sortby');
+
+export function buildRow<T extends Record<string, string>>(
+	sheet: DataSheet<T>,
+	rowData: DataSheetRow<keyof T>,
+	columns: { keyName: string, index: number }[]
+): string[] {
+	const columnsWithIndices = Object
+		.values(sheet.columns)
+		.map(columnName => ({
+			index: columnNameToIndex(columnName),
+			columnName,
+		}));
+	const offsetIndex = sortBy(columnsWithIndices, ['index'])[0].index;
+
+	const result = [];
+	for (const column of columns) {
+		result[column.index - offsetIndex] = rowData[column.keyName as keyof DataSheetRow<keyof T>];
+	}
+	return result;
+}
+
 
 export function getRange<T extends Record<string, string>>(
 	sheet: DataSheet<T>,
@@ -14,8 +35,9 @@ export function getRange<T extends Record<string, string>>(
 		}));
 
 	const endColumn = sortBy(columnsWithIndices, ['index']).reverse()[0].columnName;
+	const startColumn = sortBy(columnsWithIndices, ['index'])[0].columnName;
 
-	return `'${sheet.name}'!A${startRow + sheet.dataStartsAtRow - 1}:${endColumn}${endRow || endRow === 0 ? endRow + sheet.dataStartsAtRow - 1 : ''}`;
+	return `'${sheet.name}'!${startColumn}${startRow + sheet.dataStartsAtRow - 1}:${endColumn}${endRow || endRow === 0 ? endRow + sheet.dataStartsAtRow - 1 : ''}`;
 }
 
 export function columnNameToIndex(name: string): number {

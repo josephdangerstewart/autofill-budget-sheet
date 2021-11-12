@@ -1,11 +1,50 @@
+import { format } from 'date-fns';
+
+const monthlyBudgetTemplateSheetName = 'Monthly Budget Template';
+
 export const sheetInfo = {
 	spreadsheetId: '1ws9bzJ7jGTBsqKY-leK3JZHDSJRCGKKvBCfH7WRYgq8',
+	monthlyBudgetTemplateSheetName,
+	getMonthlyBudgetExpensesQuery: (fromDate: Date, toDate: Date) =>
+		`=QUERY('Classified Transactions'!B4:F, "SELECT B, C, E, D, F WHERE (toDate(D) >= date '${format(fromDate, 'yyyy-MM-dd')}') AND (toDate(D) <= date '${format(toDate, 'yyyy-MM-dd')}')")`,
+	getMonthlyBudgetIncomeQuery: (fromDate: Date, toDate: Date) =>
+		`=QUERY(Income!B4:E, "SELECT B, D WHERE C >= date '${format(fromDate, 'yyyy-MM-dd')}' AND C <= date '${format(toDate, 'yyyy-MM-dd')}'")`,
 	sheets: {
 		mostRecentTransaction: {
 			name: 'Most Recent Transaction',
 			dataStartsAtRow: 4,
 			columns: {
 				mostRecentTransaction: 'E',
+			}
+		},
+		monthlyBudgetTemplateExpenses: {
+			name: monthlyBudgetTemplateSheetName,
+			dataStartsAtRow: 6,
+			columns: {
+				name: 'A',
+				amount: 'B',
+			},
+		},
+		monthlyBudgetTemplateIncome: {
+			name: monthlyBudgetTemplateSheetName,
+			dataStartsAtRow: 6,
+			columns: {
+				name: 'F',
+				amount: 'G'
+			},
+		},
+		monthlyBudgetTemplateActualExpenses: {
+			name: monthlyBudgetTemplateSheetName,
+			dataStartsAtRow: 6,
+			columns: {
+				query: 'I',
+			},
+		},
+		monthlyBudgetTemplateActualIncome: {
+			name: monthlyBudgetTemplateSheetName,
+			dataStartsAtRow: 6,
+			columns: {
+				query: 'O',
 			}
 		},
 		transactions: {
@@ -50,7 +89,7 @@ export const sheetInfo = {
 			columns: {
 				name: 'A',
 				grouping: 'B',
-				defaultAmount: 'C',
+				amount: 'C',
 			}
 		},
 		defaultIncomeCategories: {
@@ -58,7 +97,7 @@ export const sheetInfo = {
 			dataStartsAtRow: 6,
 			columns: {
 				name: 'A',
-				expectedAmount: 'B',
+				amount: 'B',
 			}
 		},
 		needsManualReview: {
