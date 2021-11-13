@@ -11,7 +11,7 @@ export async function addSheetData<T extends Record<string, string>>(
 
 	const columns = Object.entries(sheet.columns).map(([keyName, columnName]) => ({
 		keyName,
-		index: columnNameToIndex(columnName),
+		index: columnNameToIndex(sheet, columnName),
 	}));
 
 	const rawRowData = rowData.map((x) => buildRow(sheet, x, columns));

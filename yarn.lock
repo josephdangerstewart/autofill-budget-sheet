@@ -41,6 +41,13 @@
   resolved "https://registry.yarnpkg.com/@tsconfig/node16/-/node16-1.0.2.tgz#423c77877d0569db20e1fc80885ac4118314010e"
   integrity sha512-eZxlbI8GZscaGS7kkc/trHTT5xgrjH3/1n2JDwusC9iahPKWMRvRjJSAN5mCXviuTGQ/lHnhvv8Q1YTpnfz9gA==
 
+"@types/lodash.maxby@^4.6.6":
+  version "4.6.6"
+  resolved "https://registry.yarnpkg.com/@types/lodash.maxby/-/lodash.maxby-4.6.6.tgz#504b8d2d8e9366039dfe2b2b0bf77c64c433e3f1"
+  integrity sha512-bHlAUse1H1oi2D4AWwP04bJsofzWfXcEBr1Jin8/xSvI0Z/CGE2pcTgHg2oFm/pDXFtAOCDjurhaOynK6NYsZA==
+  dependencies:
+    "@types/lodash" "*"
+
 "@types/lodash.sortby@^4.7.6":
   version "4.7.6"
   resolved "https://registry.yarnpkg.com/@types/lodash.sortby/-/lodash.sortby-4.7.6.tgz#eed689835f274b553db4ae16a4a23f58b79618a1"
@@ -651,6 +658,11 @@ light-my-request@^4.2.0:
     cookie "^0.4.0"
     fastify-warning "^0.2.0"
     set-cookie-parser "^2.4.1"
+
+lodash.maxby@^4.6.0:
+  version "4.6.0"
+  resolved "https://registry.yarnpkg.com/lodash.maxby/-/lodash.maxby-4.6.0.tgz#082240068f3c7a227aa00a8380e4f38cf0786e3d"
+  integrity sha1-CCJABo88eiJ6oAqDgOTzjPB4bj0=
 
 lodash.sortby@^4.7.0:
   version "4.7.0"

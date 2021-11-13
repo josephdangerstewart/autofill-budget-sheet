@@ -6,17 +6,9 @@ export function buildRow<T extends Record<string, string>>(
 	rowData: DataSheetRow<keyof T>,
 	columns: { keyName: string, index: number }[]
 ): string[] {
-	const columnsWithIndices = Object
-		.values(sheet.columns)
-		.map(columnName => ({
-			index: columnNameToIndex(columnName),
-			columnName,
-		}));
-	const offsetIndex = sortBy(columnsWithIndices, ['index'])[0].index;
-
 	const result = [];
 	for (const column of columns) {
-		result[column.index - offsetIndex] = rowData[column.keyName as keyof DataSheetRow<keyof T>];
+		result[column.index] = rowData[column.keyName as keyof DataSheetRow<keyof T>];
 	}
 	return result;
 }
@@ -30,7 +22,7 @@ export function getRange<T extends Record<string, string>>(
 	const columnsWithIndices = Object
 		.values(sheet.columns)
 		.map(columnName => ({
-			index: columnNameToIndex(columnName),
+			index: columnNameToIndex(sheet, columnName),
 			columnName,
 		}));
 
@@ -40,7 +32,21 @@ export function getRange<T extends Record<string, string>>(
 	return `'${sheet.name}'!${startColumn}${startRow + sheet.dataStartsAtRow - 1}:${endColumn}${endRow || endRow === 0 ? endRow + sheet.dataStartsAtRow - 1 : ''}`;
 }
 
-export function columnNameToIndex(name: string): number {
+export function columnNameToIndex<T extends Record<string, string>>(sheet: DataSheet<T>, name: string): number {
+	const columnsWithIndices = Object
+		.values(sheet.columns)
+		.map(columnName => ({
+			index: columnNameToRawIndex(columnName),
+			columnName,
+		}));
+
+	const startColumn = sortBy(columnsWithIndices, ['index'])[0].columnName;
+	const startColumnIndex = columnNameToRawIndex(startColumn);
+
+	return columnNameToRawIndex(name) - startColumnIndex;
+}
+
+function columnNameToRawIndex(name: string): number {
 	if (!/^[A-Z]+$/.test(name)) {
 		throw new Error(`Column names must be letters only, got "${name}"`);
 	}

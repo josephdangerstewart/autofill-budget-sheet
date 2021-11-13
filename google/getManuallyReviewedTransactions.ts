@@ -9,6 +9,11 @@ export async function getManuallyReviewedTransactions(): Promise<ClassificationR
 	await clearSheetData(sheetInfo.sheets.needsManualReview);
 
 	return results.map((x) => {
+		if (!x.id) {
+			// the row was deleted
+			return null;
+		}
+
 		if (x.manuallyEnteredCategory?.trim()) {
 			return {
 				status: 'success',
@@ -16,7 +21,7 @@ export async function getManuallyReviewedTransactions(): Promise<ClassificationR
 				plaidTransaction: {
 					id: x.id,
 					amount: parseDollars(x.amount),
-					categories: x.plaidCategories.split(',').map(x => x.trim()),
+					categories: x.plaidCategories?.split(',').map(x => x.trim()) ?? [],
 					date: parse(x.date, 'yyyy-MM-dd', new Date()),
 					merchantName: x.merchant,
 					rawName: x.name,
@@ -35,5 +40,5 @@ export async function getManuallyReviewedTransactions(): Promise<ClassificationR
 				rawName: x.name,
 			},
 		};
-	})
+	}).filter((x): x is ClassificationResult => Boolean(x));
 }

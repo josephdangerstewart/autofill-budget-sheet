@@ -10,13 +10,6 @@ export const sheetInfo = {
 	getMonthlyBudgetIncomeQuery: (fromDate: Date, toDate: Date) =>
 		`=QUERY(Income!B4:E, "SELECT B, D WHERE C >= date '${format(fromDate, 'yyyy-MM-dd')}' AND C <= date '${format(toDate, 'yyyy-MM-dd')}'")`,
 	sheets: {
-		mostRecentTransaction: {
-			name: 'Most Recent Transaction',
-			dataStartsAtRow: 4,
-			columns: {
-				mostRecentTransaction: 'E',
-			}
-		},
 		monthlyBudgetTemplateExpenses: {
 			name: monthlyBudgetTemplateSheetName,
 			dataStartsAtRow: 6,

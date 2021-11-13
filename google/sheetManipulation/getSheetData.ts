@@ -15,18 +15,20 @@ export async function getSheetData<T extends Record<string, string>>(
 		range: getRange(sheet, startRow, endRow),
 	});
 
-	const values = response.data.values.map(row => {
+	const values = response.data.values?.map(row => {
 		return Object
 			.entries(sheet.columns)
-			.map(([keyName, columnName]) => ({
-				keyName,
-				value: row[columnNameToIndex(columnName)],
-			}))
+			.map(([keyName, columnName]) => {
+				return ({
+					keyName,
+					value: row[columnNameToIndex(sheet, columnName)],
+				})
+			})
 			.reduce<Record<string, string>>((obj, cur) => {
 				obj[cur.keyName] = cur.value;
 				return obj;
 			}, {});
-	});
+	}) ?? [];
 
 	return values as DataSheetRow<keyof T>[];
 }

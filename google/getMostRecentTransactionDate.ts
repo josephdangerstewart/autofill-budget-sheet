@@ -1,16 +1,19 @@
 import { parse } from 'date-fns';
+import maxBy = require('lodash.maxby');
 import { sheetInfo } from './sheetInfo';
 import { getSheetData } from './sheetManipulation';
 
 export async function getMostRecentTransactionDate(): Promise<Date | null> {
-	const response = await getSheetData(sheetInfo.sheets.mostRecentTransaction, 1, 1);
-	const mostRecentDate = response[0]?.mostRecentTransaction;
+	const response = await getSheetData(sheetInfo.sheets.transactions, 1);
+	const allDates = response
+		?.map((x)=> x.date && parse(x.date, 'yyyy-MM-dd', new Date()))
+		.filter(x => x && !isNaN(x.getTime()));
 
-	const parsedDate = parse(mostRecentDate, 'yyyy-MM-dd', new Date());
-
-	if (!mostRecentDate || isNaN(parsedDate?.getTime() ?? NaN)) {
+	if (!allDates?.length) {
 		return null;
 	}
 
-	return parsedDate;
+	const maxDate = maxBy(allDates, x => x.valueOf());
+
+	return maxDate;
 }

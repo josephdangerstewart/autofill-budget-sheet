@@ -12,7 +12,7 @@ export async function updateSheetData<T extends Record<string, string>>(
 
 	const columns = Object.entries(sheet.columns).map(([keyName, columnName]) => ({
 		keyName,
-		index: columnNameToIndex(columnName),
+		index: columnNameToIndex(sheet, columnName),
 	}));
 
 	const rawRowData = buildRow(sheet, data, columns);
