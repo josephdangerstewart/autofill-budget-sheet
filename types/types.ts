@@ -61,3 +61,9 @@ export interface ImportResults {
 	manualReview: PlaidTransaction[];
 	classified: SuccessClassificationResult[];
 }
+
+export interface OverspendingReport {
+	category: string;
+	excessAmount: number;
+	totalSpent: number;
+}

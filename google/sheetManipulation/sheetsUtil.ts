@@ -61,7 +61,7 @@ function columnNameToRawIndex(name: string): number {
 }
 
 export function parseDollars(dollars: string): number {
-	const match = /[^0-9]*([0-9]+\.[0-9]+?)$/.exec(dollars);
+	const match = /[^0-9]*([0-9]+\.[0-9]+?)$/.exec(dollars.replace(/,/g, ''));
 
 	if (!match) {
 		return NaN;

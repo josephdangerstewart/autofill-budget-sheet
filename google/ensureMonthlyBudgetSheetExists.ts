@@ -1,7 +1,6 @@
 import { google } from 'googleapis';
 import { format, startOfMonth, endOfMonth } from 'date-fns';
-import { sheetInfo } from './sheetInfo';
-import { DataSheet } from '../types';
+import { sheetInfo, extendDataSheet, getMonthlyBudgetSheetName } from './sheetInfo';
 import { updateSheetData, addSheetData, getSheetData } from './sheetManipulation';
 
 export async function ensureMonthlyBudgetSheetExists(dateForMonth: Date): Promise<void> {
@@ -11,7 +10,7 @@ export async function ensureMonthlyBudgetSheetExists(dateForMonth: Date): Promis
 		spreadsheetId: sheetInfo.spreadsheetId,
 	});
 
-	const monthlyBudgetSheetName = format(dateForMonth, 'LLL yyyy');
+	const monthlyBudgetSheetName = getMonthlyBudgetSheetName(dateForMonth);
 
 	if (spreadsheet.data.sheets.some(x => x.properties.title === monthlyBudgetSheetName)) {
 		return;
@@ -74,16 +73,12 @@ export async function ensureMonthlyBudgetSheetExists(dateForMonth: Date): Promis
 		await addSheetData(newIncomeSheet, defaultIncome),
 		await addSheetData(newExpenseSheet, defaultExpenses),
 		await updateSheetData(actualIncomeSheet, 1, { query: incomeQuery }),
-		await updateSheetData(actualExpenseSheet, 1, { query: expensesQuery }),
+		await updateSheetData(actualExpenseSheet, 1, {
+			name: expensesQuery,
+			merchant: null,
+			cost: null,
+			date: null,
+			category: null,
+		}),
 	]);
-}
-
-function extendDataSheet<T extends Record<string, string>>(
-	sheet: DataSheet<T>,
-	newSheetName: string
-): DataSheet<T> {
-	return {
-		...sheet,
-		name: newSheetName,
-	};
 }

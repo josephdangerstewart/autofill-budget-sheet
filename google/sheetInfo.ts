@@ -1,4 +1,5 @@
 import { format } from 'date-fns';
+import { DataSheet } from '../types';
 
 const monthlyBudgetTemplateSheetName = 'Monthly Budget Template';
 
@@ -30,7 +31,11 @@ export const sheetInfo = {
 			name: monthlyBudgetTemplateSheetName,
 			dataStartsAtRow: 6,
 			columns: {
-				query: 'I',
+				name: 'I',
+				merchant: 'J',
+				cost: 'K',
+				date: 'L',
+				category: 'M',
 			},
 		},
 		monthlyBudgetTemplateActualIncome: {
@@ -108,3 +113,17 @@ export const sheetInfo = {
 		},
 	},
 } as const;
+
+export function extendDataSheet<T extends Record<string, string>>(
+	sheet: DataSheet<T>,
+	newSheetName: string
+): DataSheet<T> {
+	return {
+		...sheet,
+		name: newSheetName,
+	};
+}
+
+export function getMonthlyBudgetSheetName(dateForMonth: Date): string {
+	return format(dateForMonth, 'LLL yyyy');
+}

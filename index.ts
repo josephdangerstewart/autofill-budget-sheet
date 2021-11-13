@@ -5,6 +5,7 @@ import { program } from 'commander';
 
 import { runBudgetImport } from './runBudgetImport';
 import { reclassifyTransactions } from './reclassifyTransactions';
+import { reportOverspending } from './reportOverspending';
 
 function withErrorHandling(action: () => Promise<any>) {
 	return async () => {
@@ -25,5 +26,10 @@ program
 	.command('reclassify')
 	.description('reclassifies manually reviewed transactions')
 	.action(withErrorHandling(reclassifyTransactions));
+
+program
+	.command('report-overspending')
+	.description('reports all categories for the current month that have been overspent')
+	.action(withErrorHandling(reportOverspending))
 
 program.parse(process.argv);
