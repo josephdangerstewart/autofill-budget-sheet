@@ -13,14 +13,12 @@ export async function runBudgetImport() {
 	const [
 		plaidAccessToken,
 		lastTransactionDate,
-		rules
+		rules,
 	] = await Promise.all([
 		getAccessToken(),
 		getMostRecentTransactionDate(),
 		getRules(),
 	]);
-
-	console.log(lastTransactionDate);
 
 	const transactions = await getTransactions(
 		plaidAccessToken,
@@ -29,7 +27,7 @@ export async function runBudgetImport() {
 
 	const classifications = tryClassifyTransactions(transactions, rules);
 
-	await recordClassificationResults(classifications);
+	const { manualReview } = await recordClassificationResults(classifications);
 
 	const uniqueMonths = uniqBy(
 		classifications.map((x) => x.plaidTransaction.date),

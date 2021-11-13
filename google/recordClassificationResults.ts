@@ -1,10 +1,10 @@
 import sortBy = require('lodash.sortby');
-import { ClassificationResult, SuccessClassificationResult, PlaidTransaction } from '../types';
+import { ClassificationResult, SuccessClassificationResult, PlaidTransaction, RecordClassificationsResults } from '../types';
 import { format } from 'date-fns';
 import { addSheetData } from './sheetManipulation';
 import { sheetInfo } from './sheetInfo';
 
-export async function recordClassificationResults(results: ClassificationResult[]): Promise<void> {
+export async function recordClassificationResults(results: ClassificationResult[]): Promise<RecordClassificationsResults> {
 	const forManualReview = results
 		.filter((x) => (
 			(x.status === 'error' || x.behavior === '$ASK_EVERY_TIME') &&
@@ -29,6 +29,12 @@ export async function recordClassificationResults(results: ClassificationResult[
 		recordSuccess(sortBy(forSuccess, [o => o.plaidTransaction.date.toISOString()])),
 		recordIncome(sortBy(income, [o => o.date.toISOString()])),
 	]);
+
+	return {
+		manualReview: forManualReview,
+		income,
+		classified: forSuccess,
+	};
 }
 
 async function recordIncome(results: PlaidTransaction[]): Promise<void> {
