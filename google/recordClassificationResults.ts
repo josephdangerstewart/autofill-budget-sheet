@@ -1,10 +1,15 @@
 import sortBy = require('lodash.sortby');
-import { ClassificationResult, SuccessClassificationResult, PlaidTransaction, RecordClassificationsResults } from '../types';
+import {
+	ClassificationResult,
+	SuccessClassificationResult,
+	PlaidTransaction,
+	ImportResults,
+} from '../types';
 import { format } from 'date-fns';
 import { addSheetData } from './sheetManipulation';
 import { sheetInfo } from './sheetInfo';
 
-export async function recordClassificationResults(results: ClassificationResult[]): Promise<RecordClassificationsResults> {
+export async function recordClassificationResults(results: ClassificationResult[]): Promise<ImportResults> {
 	const forManualReview = results
 		.filter((x) => (
 			(x.status === 'error' || x.behavior === '$ASK_EVERY_TIME') &&

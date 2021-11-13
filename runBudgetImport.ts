@@ -8,6 +8,7 @@ import {
 } from './google';
 import { subMonths, format } from 'date-fns';
 import { tryClassifyTransactions } from './classifier';
+import { sendImportNotifications } from './discord';
 
 export async function runBudgetImport() {
 	const [
@@ -27,7 +28,7 @@ export async function runBudgetImport() {
 
 	const classifications = tryClassifyTransactions(transactions, rules);
 
-	const { manualReview } = await recordClassificationResults(classifications);
+	const importResults = await recordClassificationResults(classifications);
 
 	const uniqueMonths = uniqBy(
 		classifications.map((x) => x.plaidTransaction.date),
@@ -36,5 +37,5 @@ export async function runBudgetImport() {
 
 	const promises = uniqueMonths.map(x => ensureMonthlyBudgetSheetExists(x));
 
-	await Promise.all(promises);
+	await Promise.all([...promises, sendImportNotifications(importResults)]);
 }

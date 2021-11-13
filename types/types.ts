@@ -56,7 +56,7 @@ export type ErrorClassificationResult = {
 
 export type ClassificationResult = SuccessClassificationResult | ErrorClassificationResult;
 
-export interface RecordClassificationsResults {
+export interface ImportResults {
 	income: PlaidTransaction[];
 	manualReview: PlaidTransaction[];
 	classified: SuccessClassificationResult[];
