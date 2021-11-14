@@ -7,9 +7,9 @@ export const sheetInfo = {
 	spreadsheetId: '1ws9bzJ7jGTBsqKY-leK3JZHDSJRCGKKvBCfH7WRYgq8',
 	monthlyBudgetTemplateSheetName,
 	getMonthlyBudgetExpensesQuery: (fromDate: Date, toDate: Date) =>
-		`=QUERY('Classified Transactions'!B4:F, "SELECT B, C, E, D, F WHERE (toDate(D) >= date '${format(fromDate, 'yyyy-MM-dd')}') AND (toDate(D) <= date '${format(toDate, 'yyyy-MM-dd')}')")`,
+		`=QUERY('Classified Transactions'!B4:F, "SELECT B, C, E, D, F WHERE (toDate(D) >= date '${format(fromDate, 'yyyy-MM-dd')}') AND (toDate(D) <= date '${format(toDate, 'yyyy-MM-dd')}') ORDER BY D")`,
 	getMonthlyBudgetIncomeQuery: (fromDate: Date, toDate: Date) =>
-		`=QUERY(Income!B4:E, "SELECT B, D WHERE C >= date '${format(fromDate, 'yyyy-MM-dd')}' AND C <= date '${format(toDate, 'yyyy-MM-dd')}'")`,
+		`=QUERY(Income!B4:E, "SELECT B, D WHERE C >= date '${format(fromDate, 'yyyy-MM-dd')}' AND C <= date '${format(toDate, 'yyyy-MM-dd')}' ORDER BY C")`,
 	sheets: {
 		monthlyBudgetTemplateExpenses: {
 			name: monthlyBudgetTemplateSheetName,
