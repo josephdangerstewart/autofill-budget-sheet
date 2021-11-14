@@ -4,6 +4,7 @@
 
 plaidAccessToken.json
 serviceAccountCredentials.json
+build/
 
 ### Node ###
 # Logs
