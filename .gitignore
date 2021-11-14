@@ -5,6 +5,7 @@
 plaidAccessToken.json
 serviceAccountCredentials.json
 build/
+serverless_sdk/
 
 ### Node ###
 # Logs

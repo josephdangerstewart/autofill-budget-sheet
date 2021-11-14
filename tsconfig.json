@@ -14,6 +14,11 @@
 		"skipDefaultLibCheck": true,
 		"esModuleInterop": true,
 		"sourceMap": true,
-		"outDir": "./build"
-	}
+		"outDir": "./build",
+		"resolveJsonModule": true
+	},
+	"include": [
+		".",
+		"google/*.json"
+	]
 }

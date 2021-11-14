@@ -6,7 +6,8 @@
   "scripts": {
 	"dev": "ts-node --transpile-only --files index",
 	"cmd": "node ./build/index",
-	"build": "tsc"
+	"build": "tsc",
+	"deploy": "yarn build && serverless deploy"
   },
   "author": "",
   "license": "ISC",

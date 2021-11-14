@@ -16,7 +16,7 @@ export async function runBudgetImport() {
 		lastTransactionDate,
 		rules,
 	] = await Promise.all([
-		getAccessToken(),
+		getAccessToken(false),
 		getMostRecentTransactionDate(),
 		getRules(),
 	]);

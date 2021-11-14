@@ -1,0 +1,32 @@
+org: josephdangerstewart
+app: budgeting-app
+service: happy-hive
+provider:
+  name: aws
+  environment:
+    PLAID_CLIENT_ID: ${param:PLAID_CLIENT_ID}
+    PLAID_SECRET: ${param:PLAID_SECRET}
+    PLAID_ACCESS_TOKEN: ${param:PLAID_ACCESS_TOKEN}
+    PLAID_ENV: ${param:PLAID_ENV}
+    DISCORD_TOKEN: ${param:DISCORD_TOKEN}
+
+package:
+  patterns:
+    - build/**
+
+functions:
+  import:
+    handler: build/runBudgetImport.runBudgetImport
+    timeout: 45
+    events:
+      - schedule: cron(0 17 * * ? *)
+  reclassify:
+    handler: build/reclassifyTransactions.reclassifyTransactions
+    timeout: 45
+    events:
+      - schedule: cron(0 1 * * ? *)
+  reportOverspend:
+    handler: build/reportOverspending.reportOverspending
+    timeout: 45
+    events:
+      - schedule: cron(5 17 * * ? *)
