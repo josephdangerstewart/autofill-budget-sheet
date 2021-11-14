@@ -25,25 +25,38 @@ export async function getOverspendingReportsForCurrentMonth(): Promise<Overspend
 			return map;
 		}
 
-		map[cur.name] = parseDollars(cur.amount);
+		if (map[cur.name] === undefined) {
+			map[cur.name] = 0;
+		}
+
+		map[cur.name] += parseDollars(cur.amount);
 		return map;
 	}, {});
+
 	const totalExpensesByCategory = actualExpenses.reduce<Record<string, number>>((map, cur) => {
-		if (!cur.category) {
+		const category = cur.category?.toLowerCase();
+		
+		if (!category) {
 			return map;
 		}
 
-		map[cur.category] = parseDollars(cur.cost);
+		if (map[category] === undefined) {
+			map[category] = 0;
+		}
+
+		map[category] += parseDollars(cur.cost);
 		return map;
 	}, {});
 
 	return Object
 		.entries(totalBudgetedByCategory)
-		.map(([category, expectedCost]) => ({
-			category,
-			left: expectedCost - (totalExpensesByCategory[category] ?? 0),
-			totalSpent: totalExpensesByCategory[category] ?? 0,
-		}))
+		.map(([category, expectedCost]) => {
+			return ({
+				category,
+				left: expectedCost - (totalExpensesByCategory[category.toLowerCase()] ?? 0),
+				totalSpent: totalExpensesByCategory[category.toLowerCase()] ?? 0,
+			})
+		})
 		.filter(x => x.left < 0)
 		.map(({ category, left, totalSpent }) => ({
 			category,
