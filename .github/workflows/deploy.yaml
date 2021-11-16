@@ -20,9 +20,11 @@ jobs:
         node-version: ${{ matrix.node-version }}
     - run: yarn
     - name: Write google auth secrets
-      run: |
-        touch google/serviceAccountCredentials.json
-        echo ${{ secrets.GOOGLE_SA_CREDENTIALS }} >> google/serviceAccountCredentials.json
+      uses: jsdaniell/create-json@1.1.2
+      with:
+        name: serviceAccountCredentials.json
+        json: ${{ secrets.GOOGLE_SA_CREDENTIALS }}
+        dir: 'google/'
     - run: yarn build
     - name: serverless deploy
       uses: serverless/github-action@master
